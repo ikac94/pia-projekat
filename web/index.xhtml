@@ -11,22 +11,26 @@
         <h:form>
             <p:menubar>
                 <f:facet name="options">
-                    <p:commandButton value="Registruj se" style="float:right"/>
+                    <p:commandButton value="Registruj se" style="float:right" action="register.xhtml"/>
                 </f:facet>
             </p:menubar>
-
+        </h:form>
+        <h:form>
             <p:layout>
                 <p:layoutUnit position="center">
-                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto">
                         <h:outputLabel for="username" value="Korisničko ime" />
                         <p:inputText id="username" value="#{loginView.username}" required="true" />
                         <h:outputLabel for="pass" value="Lozinka" />
                         <p:password id="pass" value="#{loginView.password}" required="true" />
                     </h:panelGrid>
-                    <p:commandButton value="Prijavi se" icon="ui-icon-check" actionListener="#{loginView.logIn}"/>
+                    <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto">
+                        <p:commandButton value="Prijavi se" icon="ui-icon-check" actionListener="#{loginView.logIn}"/>
+                        <p:commandButton value="Nastavi kao gost" style="background-color: white"/>
+                        <p:link href="">Promeni lozinku</p:link>
+                    </h:panelGrid>
                 </p:layoutUnit>
             </p:layout>
-                
         </h:form>
 <!--        <h:form >
             <p:menubar>

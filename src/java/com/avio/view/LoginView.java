@@ -5,7 +5,11 @@
  */
 package com.avio.view;
 
+import com.avio.model.User;
+import com.avio.service.UserRepository;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +23,9 @@ public class LoginView {
     
     String username;
     String password;
+    
+    @ManagedProperty(value = "#{userRepository}")
+    private UserRepository userRepository;
 
     public LoginView() {
     }
@@ -38,8 +45,18 @@ public class LoginView {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     
     public void logIn() {
         log.info("Username: {}, password: {}", username, password);
+        //TODO connect with database & log in this user
+        List<User> allUsers = userRepository.findAll();
     }
 }
