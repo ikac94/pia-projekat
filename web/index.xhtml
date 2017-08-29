@@ -18,6 +18,7 @@
         <h:form>
             <p:layout>
                 <p:layoutUnit position="center">
+                    <p:messages id="loginMsg"/>
                     <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto">
                         <h:outputLabel for="username" value="Korisničko ime" />
                         <p:inputText id="username" value="#{loginView.username}" required="true" />
@@ -25,33 +26,14 @@
                         <p:password id="pass" value="#{loginView.password}" required="true" />
                     </h:panelGrid>
                     <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto">
-                        <p:commandButton value="Prijavi se" icon="ui-icon-check" actionListener="#{loginView.logIn}"/>
+                        <p:commandButton value="Prijavi se" icon="ui-icon-check" action="#{loginView.logIn()}"/>
                         <p:commandButton value="Nastavi kao gost" style="background-color: white"/>
                         <p:link href="">Promeni lozinku</p:link>
                     </h:panelGrid>
                 </p:layoutUnit>
             </p:layout>
         </h:form>
-<!--        <h:form >
-            <p:menubar>
-                <p:menuitem>
-                    Registruj se
-                </p:menuitem>
-                <p:menuitem style="align-self: flex-endz">
-                    Izloguj se
-                </p:menuitem>
-            </p:menubar>
-        </h:form>
-        <div style="background-color: #cccccc; height: 35px">
-            <div style="float:left">
-                Avionski letovi
-            </div>
-            <div style="float:right">
-                <a href="">Izloguj se</a>
-            </div>
-            <br></br>
-        </div>
-        Hello from Facelets-->
+
     </h:body>
 </html>
 

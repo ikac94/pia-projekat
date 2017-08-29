@@ -10,5 +10,5 @@ package com.avio.model;
  * @author Ilija Knezevic
  */
 public enum UserType {
-    ADMIN;
+    ADMIN, PILOT, FLIGHT_ATTENDANT, WORKER;
 }

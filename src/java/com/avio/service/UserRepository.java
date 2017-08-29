@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -35,18 +36,22 @@ public class UserRepository {
         this.dBBean = dBBean;
     }
     
-    public List<User> findAll() {
-        EntityManagerFactory sessionFactory = dBBean.getSessionFactory();
-        EntityManager entityManager = sessionFactory.createEntityManager();
+    public User findOne(String username) {
+        EntityManager entityManager = dBBean.getEntityManager();
         entityManager.getTransaction().begin();
-        List<User> result = entityManager.createQuery("from User", User.class).getResultList();
-        result.forEach((user) -> {
-            System.out.println( "User (" + user.getName()+ ") : " + user.getEmail());
-        });
+        TypedQuery<User> query = entityManager.createQuery("from User u where u.username = :username", User.class);
+        query.setParameter("username", username);
+        List<User> result = query.getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
-        return result;
+        if (result != null && !result.isEmpty()) {
+            return result.get(0);
+        } else {
+            return null;
+        }
     }
+    
+    
     
     
 }

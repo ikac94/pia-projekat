@@ -7,6 +7,7 @@ package com.avio.service;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -18,17 +19,23 @@ import javax.persistence.Persistence;
 @ApplicationScoped
 public class DBBean {
     
-    private EntityManagerFactory sessionFactory = Persistence.createEntityManagerFactory("default", null);;
+    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default", null);
 
     public DBBean() {
     }
 
-    public EntityManagerFactory getSessionFactory() {
-        return sessionFactory;
+    public EntityManager getEntityManager() {
+        return entityManagerFactory.createEntityManager();
     }
 
-    public void setSessionFactory(EntityManagerFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
     }
+
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
+    
+    
     
 }
