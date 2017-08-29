@@ -14,15 +14,11 @@ import javax.persistence.Persistence;
  *
  * @author Ilija Knezevic
  */
-@ManagedBean(name = "db")
+@ManagedBean(name = "db", eager = true)
 @ApplicationScoped
 public class DBBean {
     
-    private EntityManagerFactory sessionFactory;
-
-    protected void setUp() throws Exception {
-        sessionFactory = Persistence.createEntityManagerFactory( "default" );
-    }
+    private EntityManagerFactory sessionFactory = Persistence.createEntityManagerFactory("default", null);;
 
     public DBBean() {
     }

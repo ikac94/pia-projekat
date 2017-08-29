@@ -36,7 +36,6 @@ public class User implements Serializable {
     private Sex sex;
     
     @Column(name = "birthday", nullable = false)
-    @Temporal(TemporalType.DATE)
     private Date birthday;
     
     @Column(name = "email", length = 50, nullable = false)

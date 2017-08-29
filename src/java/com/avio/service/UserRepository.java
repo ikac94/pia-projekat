@@ -7,15 +7,18 @@ package com.avio.service;
 
 import com.avio.model.User;
 import java.util.List;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
  * @author Ilija Knezevic
  */
 @ManagedBean(name = "userRepository")
+@ApplicationScoped
 public class UserRepository {
     
     @ManagedProperty(value = "#{db}")
@@ -33,7 +36,8 @@ public class UserRepository {
     }
     
     public List<User> findAll() {
-        EntityManager entityManager = dBBean.getSessionFactory().createEntityManager();
+        EntityManagerFactory sessionFactory = dBBean.getSessionFactory();
+        EntityManager entityManager = sessionFactory.createEntityManager();
         entityManager.getTransaction().begin();
         List<User> result = entityManager.createQuery("from User", User.class).getResultList();
         result.forEach((user) -> {

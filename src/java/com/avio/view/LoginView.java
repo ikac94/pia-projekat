@@ -10,6 +10,7 @@ import com.avio.service.UserRepository;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author Ilija Knezevic
  */
 @ManagedBean
+@SessionScoped
 public class LoginView {
     public final Logger log = LoggerFactory.getLogger(getClass());
     
