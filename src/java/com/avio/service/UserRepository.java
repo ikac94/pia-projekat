@@ -39,19 +39,26 @@ public class UserRepository {
     public User findOne(String username) {
         EntityManager entityManager = dBBean.getEntityManager();
         entityManager.getTransaction().begin();
-        TypedQuery<User> query = entityManager.createQuery("from User u where u.username = :username", User.class);
-        query.setParameter("username", username);
-        List<User> result = query.getResultList();
+        User user = entityManager.find(User.class, username);
         entityManager.getTransaction().commit();
         entityManager.close();
-        if (result != null && !result.isEmpty()) {
-            return result.get(0);
-        } else {
-            return null;
-        }
+        return user;
     }
     
+    public void save(User user) {
+        EntityManager entityManager = dBBean.getEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(user);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
     
-    
-    
+    public void update(User user) {
+        EntityManager entityManager = dBBean.getEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(user);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+     
 }

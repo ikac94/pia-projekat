@@ -13,8 +13,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -50,6 +48,9 @@ public class User implements Serializable {
     @Column(name = "user_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
+    
+    @Column(name = "confirmed", length = 1, nullable = false)
+    private boolean confirmed;
 
     public User() {
     }
@@ -116,6 +117,14 @@ public class User implements Serializable {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
     }
     
 }

@@ -5,29 +5,49 @@
  */
 package com.avio.view;
 
+import com.avio.model.Sex;
+import com.avio.model.User;
+import com.avio.model.UserType;
+import com.avio.service.UserRepository;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Ilija Knezevic
  */
 @ManagedBean
+@RequestScoped
 public class RegisterView {
+    
+    public final Logger log = LoggerFactory.getLogger(getClass());
+    
     private String name;
     private String sex;
     private String birthday;
     private String email;
     private String airline;
+    private String userType;
     private String username;
     private String password;
     private String passwordConfirm;
     
     private List<SelectItem> sexes;
     private List<SelectItem> airlines;
+    private List<SelectItem> userTypes;
+    
+    @ManagedProperty(value = "#{userRepository}")
+    private UserRepository userRepository;
     
     @PostConstruct
     public void init() {
@@ -40,6 +60,14 @@ public class RegisterView {
         airlines = new ArrayList<>();
         //TODO populate airlines
         airlines.add(new SelectItem("placeholder", "placeholder"));
+        
+        //userTypes
+        userTypes = new ArrayList<>();
+        UserType.getValues().forEach(type -> {
+            if (type != UserType.ADMIN) {
+                userTypes.add(new SelectItem(type.getDesc(), type.getDesc()));
+            }
+        });
     }
 
     public RegisterView() {
@@ -85,6 +113,14 @@ public class RegisterView {
         this.airline = airline;
     }
 
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -124,10 +160,48 @@ public class RegisterView {
     public void setAirlines(List<SelectItem> airlines) {
         this.airlines = airlines;
     }
+
+    public List<SelectItem> getUserTypes() {
+        return userTypes;
+    }
+
+    public void setUserTypes(List<SelectItem> userTypes) {
+        this.userTypes = userTypes;
+    }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     
     
-    public void register() {
+    public String register() {
+        User user = new User();
+        user.setAirlineId(-1L);
+        log.info("Birthday : {}", birthday);
+        user.setBirthday(Date.valueOf(birthday));
+        user.setConfirmed(false);
+        user.setEmail(email);
+        user.setName(name);
+        user.setPassword(password);
+        user.setSex(Sex.ofValue(sex));
+        user.setUserType(UserType.ofValue(userType));
+        user.setUsername(username);
         
+        userRepository.save(user);
+        
+        User savedUser = userRepository.findOne(username);
+        if (savedUser != null) {
+            return "index";
+        } else {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage("loginMsg", 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", "Greška!"));
+            return "";
+        }
     }
     
 }
