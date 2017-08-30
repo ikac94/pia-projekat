@@ -10,8 +10,12 @@ import com.avio.model.User;
 import com.avio.model.UserType;
 import com.avio.service.UserRepository;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -177,12 +181,24 @@ public class RegisterView {
         this.userRepository = userRepository;
     }
     
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+    }
     
-    public String register() {
+    public String register() throws ParseException {
+        boolean error = false;
+        String msg = null;
         User user = new User();
         user.setAirlineId(-1L);
-        log.info("Birthday : {}", birthday);
-        user.setBirthday(Date.valueOf(birthday));
+        //Sat Jan 01 00:01:00 CET 2000
+        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
+        Date date = new Date(format.parse(birthday).getTime());
+        if (getDateDiff(date, new Date(System.currentTimeMillis()), TimeUnit.DAYS) < 18*365L) {
+            error = true;
+            msg = "Samo za starije od 18 godina!";
+        }
+        user.setBirthday(date);
         user.setConfirmed(false);
         user.setEmail(email);
         user.setName(name);
@@ -191,15 +207,22 @@ public class RegisterView {
         user.setUserType(UserType.ofValue(userType));
         user.setUsername(username);
         
-        userRepository.save(user);
+        if (!password.equals(passwordConfirm)) {
+            error = true;
+            msg = "Ponovo unesite lozinku!";
+        }
+        
+        if (!error) {
+            userRepository.save(user);
+        }
         
         User savedUser = userRepository.findOne(username);
         if (savedUser != null) {
             return "index";
         } else {
             FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage("loginMsg", 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", "Greška!"));
+            facesContext.addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
             return "";
         }
     }

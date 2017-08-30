@@ -5,33 +5,33 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Pocetna</title>
+        <title>Početna</title>
     </h:head>
     <h:body>
         <h:form>
             <p:menubar>
                 <f:facet name="options">
+                    <p:commandLink action="pass_change" style="margin-right: 10px">Promeni lozinku</p:commandLink>
+                    <p:commandButton value="Nastavi kao gost" style="background-color: white; margin-right: 10px" action="guest"/>
                     <p:commandButton value="Registruj se" style="float:right" action="register"/>
                 </f:facet>
             </p:menubar>
         </h:form>
         <h:form>
-            <p:layout>
-                <p:layoutUnit position="center">
-                    <p:messages id="loginMsg"/>
-                    <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto">
-                        <h:outputLabel for="username" value="Korisničko ime" />
-                        <p:inputText id="username" value="#{loginView.username}" required="true" />
-                        <h:outputLabel for="pass" value="Lozinka" />
-                        <p:password id="pass" value="#{loginView.password}" required="true" />
-                    </h:panelGrid>
-                    <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto">
-                        <p:commandButton value="Prijavi se" icon="ui-icon-check" action="#{loginView.logIn()}"/>
-                        <p:commandButton value="Nastavi kao gost" style="background-color: white"/>
-                        <p:link href="">Promeni lozinku</p:link>
-                    </h:panelGrid>
-                </p:layoutUnit>
-            </p:layout>
+            <p:panel>
+                <h:panelGrid columns="1" cellpadding="5" style="margin: 0 auto">
+                    <p:messages id="loginMsg" autoUpdate="true" closable="true"/>
+                </h:panelGrid>
+                <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto">
+                    <h:outputLabel for="username" value="Korisničko ime" />
+                    <p:inputText id="username" value="#{loginView.username}" required="true" />
+                    <h:outputLabel for="pass" value="Lozinka" />
+                    <p:password id="pass" value="#{loginView.password}" required="true" />
+                </h:panelGrid>
+                <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto">
+                    <p:commandButton value="Prijavi se"  icon="ui-icon-check" action="#{loginView.logIn()}"/>
+                </h:panelGrid>
+            </p:panel>>
         </h:form>
 
     </h:body>

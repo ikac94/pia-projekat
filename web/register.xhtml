@@ -16,42 +16,41 @@
             </p:menubar>
         </h:form>
         <h:form>
-            <p:layout>
-                <p:layoutUnit position="center">
-                    <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto">
-                        <h:outputLabel for="name" value="Ime i prezime" />
-                        <p:inputText id="name" value="#{registerView.name}" required="true" />
-                        <h:outputLabel for="sex" value="Pol" />
-                        <p:selectOneMenu id="sex" value="#{registerView.sex}" required="true">
-                            <f:selectItem itemLabel="Izaberi jedan" itemValue="" />
-                            <f:selectItems value="#{registerView.sexes}" />
-                        </p:selectOneMenu>
-                        <h:outputLabel for="name" value="Datum rodjenja" />
-                        <p:calendar id="popup" value="#{registerView.birthday}" pa/>
-                        <h:outputLabel for="email" value="Email" />
-                        <p:inputText id="email" value="#{registerView.email}" required="true" />
-                        <h:outputLabel for="airline" value="Kompanija" />
-                        <p:selectOneMenu id="airline" value="#{registerView.airline}" required="true">
-                            <f:selectItem itemLabel="Izaberi jedan" itemValue="" />
-                            <f:selectItems value="#{registerView.airlines}" />
-                        </p:selectOneMenu>
-                        <h:outputLabel for="role" value="Zanimanje" />
-                        <p:selectOneMenu id="role" value="#{registerView.userType}" required="true">
-                            <f:selectItem itemLabel="Izaberi jedan" itemValue="" />
-                            <f:selectItems value="#{registerView.userTypes}" />
-                        </p:selectOneMenu>
-                        <h:outputLabel for="username" value="Korisničko ime" />
-                        <p:inputText id="username" value="#{registerView.username}" required="true" />
-                        <h:outputLabel for="pass" value="Lozinka" />
-                        <p:password id="pass" value="#{registerView.password}" required="true" />
-                        <h:outputLabel for="pass_confirm" value="Ponovi lozinku" />
-                        <p:password id="pass_confirm" value="#{registerView.passwordConfirm}" required="true" />
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="5" style="margin: 0 auto">
-                        <p:commandButton value="Registruj se" icon="ui-icon-check" action="#{registerView.register()}"/>
-                    </h:panelGrid>
-                </p:layoutUnit>
-            </p:layout>
+            <p:panel>
+                <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto">
+                    <h:outputLabel for="name" value="Ime i prezime"/>
+                    <p:inputText id="name" value="#{registerView.name}" required="true" />
+                    <h:outputLabel for="sex" value="Pol"/>
+                    <p:selectOneMenu id="sex" value="#{registerView.sex}" required="true" style="width: 80%">
+                        <f:selectItem itemLabel="Izaberi jedan" itemValue="" />
+                        <f:selectItems value="#{registerView.sexes}" />
+                    </p:selectOneMenu>
+                    <h:outputLabel for="name" value="Datum rodjenja" />
+                    <p:calendar id="popup" value="#{registerView.birthday}" pattern="yyyy-mm-dd"/>
+                    <h:outputLabel for="email" value="Email" />
+                    <p:inputText id="email" value="#{registerView.email}" required="true" />
+                    <h:outputLabel for="airline" value="Kompanija" />
+                    <p:selectOneMenu id="airline" value="#{registerView.airline}" required="true" style="width: 80%">
+                        <f:selectItem itemLabel="Izaberi jedan" itemValue="" />
+                        <f:selectItems value="#{registerView.airlines}" />
+                    </p:selectOneMenu>
+                    <h:outputLabel for="role" value="Zanimanje" />
+                    <p:selectOneMenu id="role" value="#{registerView.userType}" required="true" style="width: 80%">
+                        <f:selectItem itemLabel="Izaberi jedan" itemValue="" />
+                        <f:selectItems value="#{registerView.userTypes}" />
+                    </p:selectOneMenu>
+                    <h:outputLabel for="username" value="Korisničko ime" />
+                    <p:inputText id="username" value="#{registerView.username}" required="true" />
+                    <h:outputLabel for="pass" value="Lozinka" />
+                    <p:password id="pass" value="#{registerView.password}" required="true" />
+                    <h:outputLabel for="pass_confirm" value="Ponovi lozinku" />
+                    <p:password id="pass_confirm" value="#{registerView.passwordConfirm}" required="true" />
+                </h:panelGrid>
+                <h:panelGrid columns="1" cellpadding="5" style="margin: 0 auto">
+                    <p:messages id="registerMsg" autoUpdate="true" />
+                    <p:commandButton value="Registruj se" icon="ui-icon-check" action="#{registerView.register()}"/>
+                </h:panelGrid>
+            </p:panel>
         </h:form>
     </h:body>
 </html>

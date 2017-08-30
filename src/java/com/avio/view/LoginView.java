@@ -9,10 +9,13 @@ import com.avio.model.User;
 import com.avio.model.UserType;
 import com.avio.service.UserRepository;
 import java.io.IOException;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,17 +72,15 @@ public class LoginView {
     }
     
     public String logIn() throws IOException {
-        log.info("Username: {}, password: {}", username, password);
+        String msg = null;
         User user = userRepository.findOne(username);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         if (user == null) {
-            facesContext.addMessage("loginMsg", 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Korisničko ime ne postoji", "Korisničko ime ne postoji"));
+            msg = "Korisničko ime ne postoji";
             username = null;
             password = null;
         } else if (!password.equals(user.getPassword())) {
-            facesContext.addMessage("loginMsg", 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Pogrešna lozinka", "Pogrešna lozinka"));
+            msg = "Pogrešna lozinka";
             password = null;
         }
         if (user != null && user.getUsername().equals(username) && user.getPassword().equals(password)){
@@ -94,6 +95,19 @@ public class LoginView {
                 default:                return "";
             }
         } else {
+            facesContext.addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+            UIViewRoot viewRoot = facesContext.getViewRoot();
+            log.info("ViewRoot: {}", viewRoot.getChildren().toString());
+            UIComponent component = viewRoot.findComponent("loginLayoutUnit");
+            if (component != null) {
+                Map<String, Object> attributes = component.getAttributes();
+                Object size = attributes.get("size");
+                log.info("Size: {}", size.toString());
+            } else {
+                log.error("Component is null");
+            }
+            
             return "";
         }
     }
