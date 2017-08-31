@@ -10,7 +10,7 @@ package com.avio.model;
  * @author Ilija Knezevic
  */
 public enum Sex {
-    M("M"), F("M");
+    M("M"), F("F");
     
     private String desc;
 

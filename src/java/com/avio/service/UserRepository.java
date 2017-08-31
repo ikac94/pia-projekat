@@ -6,6 +6,7 @@
 package com.avio.service;
 
 import com.avio.model.User;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -36,13 +37,34 @@ public class UserRepository {
         this.dBBean = dBBean;
     }
     
-    public User findOne(String username) {
+    public User findOne(Long id) {
         EntityManager entityManager = dBBean.getEntityManager();
         entityManager.getTransaction().begin();
-        User user = entityManager.find(User.class, username);
+        User user = entityManager.find(User.class, id);
         entityManager.getTransaction().commit();
         entityManager.close();
         return user;
+    }
+    
+    public User findOne(String username) {
+        EntityManager entityManager = dBBean.getEntityManager();
+        entityManager.getTransaction().begin();
+        TypedQuery<User> query = entityManager.createQuery("from User u where u.username = :username", User.class);
+        query.setParameter("username", username);
+        List<User> resultList = query.getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return (resultList != null && resultList.size() >= 1) ? resultList.get(0) : null;
+    }
+    
+    public List<User> findNotConfirmed() {
+        EntityManager entityManager = dBBean.getEntityManager();
+        entityManager.getTransaction().begin();
+        TypedQuery<User> query = entityManager.createQuery("from User u where u.confirmed = 0", User.class);
+        List<User> resultList = query.getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return resultList != null ? resultList : new ArrayList<>();
     }
     
     public void save(User user) {

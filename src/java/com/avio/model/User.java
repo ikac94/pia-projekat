@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -23,7 +25,11 @@ import javax.persistence.Table;
 public class User implements Serializable {
     
     @Id
-    @Column(name = "username", length = 50, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long userId;
+    
+    @Column(name = "username", length = 50, nullable = false, unique = true)
     private String username;
     
     @Column(name = "name", length = 50, nullable = false)
@@ -54,6 +60,16 @@ public class User implements Serializable {
 
     public User() {
     }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+    
+    
 
     public String getUsername() {
         return username;

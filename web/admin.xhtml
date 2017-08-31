@@ -16,7 +16,38 @@
             </p:menubar>
         </h:form>
         <p:panel>
-            <p>You are admin!</p>
+            <p:outputLabel style="font-size: 30px; font-weight: bold;">Administrator</p:outputLabel>
+            <p:tabView cache="false" id="tabV">
+                <p:tab title="Registracija">
+                    <h:form id="requests">
+                        <p:dataTable id="checkboxDT" var="user" value="#{adminView.requested}" selection="#{adminView.selected}" rowKey="#{user.username}" style="margin-bottom:0">
+                            <f:facet name="header">
+                                Zahtevi za registraciju
+                            </f:facet>
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                            <p:column headerText="Korisničko ime">
+                                <h:outputText value="#{user.username}" />
+                            </p:column>
+                            <p:column headerText="Ime">
+                                <h:outputText value="#{user.name}" />
+                            </p:column>
+                            <p:column headerText="Email">
+                                <h:outputText value="#{user.email}" />
+                            </p:column>
+                            <p:column headerText="Tip korisnika">
+                                <h:outputText value="#{user.userType.desc}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton process="checkboxDT" update=":tabV:requests:checkboxDT" icon="ui-icon-check" value="Prihvati" actionListener="#{adminView.acceptMembership()}" />
+                                <p:commandButton process="checkboxDT" update=":tabV:requests:checkboxDT" icon="ui-icon-refresh" value="Osveži" actionListener="#{adminView.refresh()}" />
+                            </f:facet>
+                        </p:dataTable>
+                    </h:form>
+                </p:tab>
+                <p:tab title="Letovi">
+                    <p>Placeholder</p>
+                </p:tab>
+            </p:tabView>
         </p:panel>
     </h:body>
 </html>
