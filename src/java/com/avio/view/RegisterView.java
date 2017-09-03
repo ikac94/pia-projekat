@@ -6,9 +6,10 @@
 package com.avio.view;
 
 import com.avio.model.Sex;
-import com.avio.model.User;
+import com.avio.model.persistence.User;
 import com.avio.model.UserType;
 import com.avio.service.UserRepository;
+import com.avio.util.TimeUtils;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +24,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +32,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Ilija Knezevic
  */
+@Data
 @ManagedBean
 @RequestScoped
 public class RegisterView {
@@ -73,118 +76,6 @@ public class RegisterView {
             }
         });
     }
-
-    public RegisterView() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAirline() {
-        return airline;
-    }
-
-    public void setAirline(String airline) {
-        this.airline = airline;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
-
-    public List<SelectItem> getSexes() {
-        return sexes;
-    }
-
-    public void setSexes(List<SelectItem> sexes) {
-        this.sexes = sexes;
-    }
-
-    public List<SelectItem> getAirlines() {
-        return airlines;
-    }
-
-    public void setAirlines(List<SelectItem> airlines) {
-        this.airlines = airlines;
-    }
-
-    public List<SelectItem> getUserTypes() {
-        return userTypes;
-    }
-
-    public void setUserTypes(List<SelectItem> userTypes) {
-        this.userTypes = userTypes;
-    }
-
-    public UserRepository getUserRepository() {
-        return userRepository;
-    }
-
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    
-    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillies = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
-    }
     
     public String register() throws ParseException {
         boolean error = false;
@@ -194,7 +85,7 @@ public class RegisterView {
         //Sat Jan 01 00:01:00 CET 2000
         SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
         Date date = new Date(format.parse(birthday).getTime());
-        if (getDateDiff(date, new Date(System.currentTimeMillis()), TimeUnit.DAYS) < 18*365L) {
+        if (TimeUtils.getDateDiff(date, new Date(System.currentTimeMillis()), TimeUnit.DAYS) < 18*365L) {
             error = true;
             msg = "Samo za starije od 18 godina!";
         }

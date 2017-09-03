@@ -5,7 +5,7 @@
  */
 package com.avio.view;
 
-import com.avio.model.User;
+import com.avio.model.persistence.User;
 import com.avio.model.UserType;
 import com.avio.service.UserRepository;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Ilija Knezevic
  */
+@Data
 @ManagedBean
 @SessionScoped
 public class LoginView {
@@ -36,41 +38,6 @@ public class LoginView {
     @ManagedProperty(value = "#{userRepository}")
     private UserRepository userRepository;
 
-    public LoginView() {
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public UserRepository getUserRepository() {
-        return userRepository;
-    }
-
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    
     public String logIn() throws IOException {
         String msg = null;
         User user = userRepository.findOne(username);

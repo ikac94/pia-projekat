@@ -5,7 +5,7 @@
  */
 package com.avio.service;
 
-import com.avio.model.User;
+import com.avio.model.persistence.User;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ApplicationScoped;
@@ -49,7 +49,7 @@ public class UserRepository {
     public User findOne(String username) {
         EntityManager entityManager = dBBean.getEntityManager();
         entityManager.getTransaction().begin();
-        TypedQuery<User> query = entityManager.createQuery("from User u where u.username = :username", User.class);
+        TypedQuery<User> query = entityManager.createNamedQuery("User.findByUsername", User.class);
         query.setParameter("username", username);
         List<User> resultList = query.getResultList();
         entityManager.getTransaction().commit();
@@ -60,7 +60,8 @@ public class UserRepository {
     public List<User> findNotConfirmed() {
         EntityManager entityManager = dBBean.getEntityManager();
         entityManager.getTransaction().begin();
-        TypedQuery<User> query = entityManager.createQuery("from User u where u.confirmed = 0", User.class);
+        TypedQuery<User> query = entityManager.createNamedQuery("User.findByConfirmed", User.class);
+        query.setParameter("confirmed", 0);
         List<User> resultList = query.getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
